@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Breast Cancer Prediction</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="{% url 'predict' %}">Predict</a></li>
+            <li><a href="#">Breast Cancer Awareness</a></li>
+            <li><a href="#">Quiz</a></li>
+            <li><a href="#">Support & Community</a></li>
+        </ul>
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

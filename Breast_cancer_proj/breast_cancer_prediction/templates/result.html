@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: lightblue;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px;
+        }
+
+        .prediction-value {
+            display: inline-block;
+            padding: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .prediction-value.yes {
+            background-color: lightcoral;
+        }
+
+        .prediction-value.no {
+            background-color: lightgreen;
+        }
+
+        .description {
+            font-size: 14px;
+            text-align: center;
+            padding: 10px;
+            margin: 20px;
+        }
+
+        .go-back-button {
+            background-color: lightgray;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Breast Cancer Prediction</h1>
+    </div>
+    <div class="content">
+        {% if result == 1 %}
+            <p>Prediction: <span class="prediction-value yes">Yes</span></p>
+            <div class="description">
+                <p>If yes, the model predicted that you may have cancer. Please consult a doctor as soon as possible.</p>
+                <p><i>Note: Our model is 94% accurate and may make wrong predictions from time to time. If you have any symptoms, please consult a doctor anytime soon.</i></p>
+            </div>
+        {% else %}
+            <p>Prediction: <span class="prediction-value no">No</span></p>
+            <div class="description">
+                <p>If no, the model predicted that you may not have cancer.</p>
+                <p><i>Our model is 94% accurate and may make wrong predictions from time to time. If you have any symptoms, please consult a doctor anytime soon.</i></p>
+            </div>
+        {% endif %}
+        <button class="go-back-button" onclick="window.location.href='/'">Go Back to Main</button>
+    </div>
+</body>
+</html>

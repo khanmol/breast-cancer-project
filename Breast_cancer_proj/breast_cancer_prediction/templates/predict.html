@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Breast Cancer Prediction</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: lightblue;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .prediction-form {
+            display: none;
+            margin-top: 50px;
+        }
+
+        .start-prediction-button {
+            background-color: lightblue;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .dialog-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: none;
+            z-index: 9999;
+        }
+
+        .dialog-box h3 {
+            margin-top: 0;
+        }
+
+        .dialog-box p {
+            margin-bottom: 10px;
+        }
+
+        .dialog-box .close-button {
+            background-color: lightgray;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Breast Cancer Prediction</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'predict' %}">Predict</a></li>
+                <li><a href="#">Breast Cancer Awareness</a></li>
+                <li><a href="{% url 'quiz_view' %}">Quiz</a></li>
+                <li><a href="#">Support &amp; Community</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="welcome-text">
+        <p>Welcome to the breast cancer prediction with 94%* accuracy.</p>
+    </div>
+
+    <div class="prediction-form">
+         <form method="post" action="{% url 'predict' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Predict</button>
+        </form>
+        <div class="back-button">
+            <a onclick="toggleForm()">Back to Main</a>
+        </div>
+    </div>
+
+    <div id="start-prediction-button" class="start-prediction-button" onclick="toggleForm()">
+        <p>Start Prediction</p>
+    </div>
+
+    <div id="dialog-box" class="dialog-box">
+        <h3>Error</h3>
+        <p>Negative value entered. Please enter a positive value.</p>
+        <div class="close-button" onclick="closeDialog()">Close</div>
+    </div>
+
+    <!-- Javascript code -->
+    <script>
+        function toggleForm() {
+            var welcomeText = document.getElementById('welcome-text');
+            var startButton = document.getElementById('start-prediction-button');
+            var predictionForm = document.querySelector('.prediction-form');
+            var backButton = document.querySelector('.back-button');
+
+            if (predictionForm.style.display === 'none') {
+                welcomeText.style.display = 'none';
+                startButton.style.animation = 'button-animation 1s forwards';
+
+                setTimeout(function () {
+                    startButton.style.display = 'none';
+                    predictionForm.style.display = 'block';
+                    backButton.style.display = 'block';
+                }, 10);
+            } else {
+                welcomeText.style.display = 'block';
+                startButton.style.display = 'block';
+                predictionForm.style.display = 'none';
+                backButton.style.display = 'none';
+            }
+        }
+
+        function closeDialog() {
+            var dialogBox = document.getElementById('dialog-box');
+            dialogBox.style.display = 'none';
+        }
+
+        function validateForm() {
+            var form = document.querySelector('.prediction-form form');
+            var inputs = form.querySelectorAll('input');
+
+            for (var i = 0; i < inputs.length; i++) {
+                var input = inputs[i];
+                if (parseFloat(input.value) < 0) {
+                    var dialogBox = document.getElementById('dialog-box');
+                    dialogBox.style.display = 'block';
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        document.querySelector('.prediction-form form').addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
